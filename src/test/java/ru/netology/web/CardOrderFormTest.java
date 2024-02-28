@@ -61,7 +61,18 @@ public class CardOrderFormTest {
                 driver.findElement(By.cssSelector("[data-test-id ='name'].input_invalid .input__sub")).getText().trim());
         assertTrue(driver.findElement(By.cssSelector("[data-test-id ='name'].input_invalid .input__sub")).isDisplayed());
     }
+
     @Test
+    public void shouldCardOrderFormIncorrectName() {
+        driver.findElement(By.cssSelector("[data-test-id ='name'] input")).sendKeys("Julia");
+        driver.findElement(By.cssSelector("[data-test-id ='phone'] input")).sendKeys("+79034568790");
+        driver.findElement(By.cssSelector("[data-test-id ='agreement']")).click();
+        driver.findElement(By.cssSelector("button.button")).click();
+        assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.",
+                driver.findElement(By.cssSelector("[data-test-id ='name'].input_invalid .input__sub")).getText().trim());
+        assertTrue(driver.findElement(By.cssSelector("[data-test-id ='name'].input_invalid .input__sub")).isDisplayed());
+    }
+        @Test
     public void shouldCardOrderFormNoPhone() {
         driver.findElement(By.cssSelector("[data-test-id ='name'] input")).sendKeys("Петров Иван");
         driver.findElement(By.cssSelector("[data-test-id ='phone'] input")).sendKeys("Pavel");
@@ -70,6 +81,23 @@ public class CardOrderFormTest {
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.",
                 driver.findElement(By.cssSelector("[data-test-id ='phone'].input_invalid .input__sub")).getText().trim());
         assertTrue(driver.findElement(By.cssSelector("[data-test-id ='phone'].input_invalid .input__sub")).isDisplayed());
+    }
+    @Test
+    public void shouldCardOrderFormEmptyPhone() {
+        driver.findElement(By.cssSelector("[data-test-id ='name'] input")).sendKeys("Петров Иван");
+        driver.findElement(By.cssSelector("[data-test-id ='agreement']")).click();
+        driver.findElement(By.cssSelector("button.button")).click();
+        assertEquals("Поле обязательно для заполнения",
+                driver.findElement(By.cssSelector("[data-test-id ='phone'].input_invalid .input__sub")).getText().trim());
+        assertTrue(driver.findElement(By.cssSelector("[data-test-id ='phone'].input_invalid .input__sub")).isDisplayed());
+    }
+    @Test
+    public void shouldCardOrderFormEmptyCheckbox() {
+        driver.findElement(By.cssSelector("[data-test-id ='name'] input")).sendKeys("Петров Иван");
+        driver.findElement(By.cssSelector("[data-test-id ='phone'] input")).sendKeys("+79034568790");
+        driver.findElement(By.cssSelector("button.button")).click();
+        driver.findElement(By.cssSelector("[data-test-id ='agreement'].input_invalid"));
+        assertTrue(driver.findElement(By.cssSelector("[data-test-id ='agreement'].input_invalid")).isDisplayed());
     }
 
 
